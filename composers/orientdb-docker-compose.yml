@@ -1,0 +1,11 @@
+version: "3"
+services:
+  orientdb:
+    container_name: OrientDB
+    image: orientdb
+    ports:
+      - 2424:2424
+      - 2480:2480
+    environment:
+#      - ORIENTDB_ROOT_PASSWORD=admin
+      - ORIENTDB_ROOT_PASSWORD=root

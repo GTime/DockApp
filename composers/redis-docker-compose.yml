@@ -1,0 +1,10 @@
+version: '3'
+services:
+  redis:
+    container_name: Redis
+    image: redis
+    # ports:
+    #  - 27017:27017
+    # environment:
+    #     - REDIS_USERNAME=admin
+    #     - REDIS_PASSWORD=admin1234
