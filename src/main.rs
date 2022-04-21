@@ -2,9 +2,11 @@ use std::fs::read_dir;
 use std::io::{self, Write};
 use std::path::PathBuf;
 use std::process::Command;
+use dirs;
 
 // Get list of all file in the composes folder
 fn get_composers(path: &str) -> io::Result<Vec<PathBuf>> {
+    let path = format!("{}/{}",dirs::home_dir().unwrap().to_str().unwrap(), path);
     let mut entries = read_dir(path)?
         .map(|res| res.map(|e| e.path()))
         .collect::<Result<Vec<_>, io::Error>>()?;
@@ -68,13 +70,22 @@ fn compose(path: &PathBuf) -> io::Result<()> {
     Ok(())
 }
 
-const COMPOSERS_PATH: &str = "./composers";
+const COMPOSERS_PATH: &str = ".dockapp/composers";
+
 
 fn main() -> io::Result<()> {
     println!("\nHi, Welcome\n");
 
     // Getting Composers
-    let composers = get_composers(COMPOSERS_PATH)?;
+    let composers = get_composers(COMPOSERS_PATH);
+
+    // Report error
+    if let Err(e) = composers {
+        println!("Failed to get composers from {} cos: {}", COMPOSERS_PATH, e);
+        return Ok(());
+    }
+
+    let composers = composers.unwrap();
     println!("Select from the list of composers: ");
     println!("{}", prepare_menu(&composers));
 
@@ -129,3 +140,5 @@ mod test {
         assert_eq!(prepare_menu(&composers), "");
     }
 }
+
+
