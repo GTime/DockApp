@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  redis_graph:
+    image: redislabs/redisgraph
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - redis_graph:/data
+volumes:
+  redis_graph:
+    driver: local
